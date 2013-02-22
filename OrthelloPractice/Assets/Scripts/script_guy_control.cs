@@ -31,10 +31,11 @@ public class script_guy_control : MonoBehaviour {
 		if (Input.GetKey(KeyCode.RightArrow) && grounded) {
 			rigidbody.velocity = new Vector3(300, rigidbody.velocity.y, 0);
 		}
-		if (!Input.anyKey) {
+		if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
 			rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
 			sprite.speed = 0;
 			sprite.frameIndex = 0;
+			transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
 			
 		}
 	}
