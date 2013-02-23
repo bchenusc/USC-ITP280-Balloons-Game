@@ -17,21 +17,26 @@ public class script_guy_control : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKey(KeyCode.LeftArrow) && grounded && Input.GetKey(KeyCode.RightArrow)) {
+			sprite.speed = 0;
+			rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+			sprite.frameIndex = 0;
+		}
 		if (Input.GetKeyDown(KeyCode.LeftArrow) && grounded) {
 			sprite.Play(1);
+		}
+		if (Input.GetKey(KeyCode.LeftArrow) && grounded && !Input.GetKey(KeyCode.RightArrow)) {
+			rigidbody.velocity = new Vector3(-300, rigidbody.velocity.y, 0);
 			sprite.speed = animSpeed;
 			sprite.flipHorizontal = true;
 		}
-		if (Input.GetKey(KeyCode.LeftArrow) && grounded) {
-			rigidbody.velocity = new Vector3(-300, rigidbody.velocity.y, 0);
-		}
 		if (Input.GetKeyDown(KeyCode.RightArrow) && grounded) {
 			sprite.Play(1);
+		}
+		if (Input.GetKey(KeyCode.RightArrow) && grounded && !Input.GetKey(KeyCode.LeftArrow)) {
+			rigidbody.velocity = new Vector3(300, rigidbody.velocity.y, 0);
 			sprite.speed = animSpeed;
 			sprite.flipHorizontal = false;
-		}
-		if (Input.GetKey(KeyCode.RightArrow) && grounded) {
-			rigidbody.velocity = new Vector3(300, rigidbody.velocity.y, 0);
 		}
 		if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
 			rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
