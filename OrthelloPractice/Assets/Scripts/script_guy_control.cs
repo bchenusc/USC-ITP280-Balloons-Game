@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+//Comment Comment
+
 public class script_guy_control : MonoBehaviour {
 	private bool grounded;
 	private OTAnimatingSprite sprite;

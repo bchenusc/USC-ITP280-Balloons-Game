@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+//comment comment
+
 public class script_32_snap : MonoBehaviour {
 
 	// Use this for initialization
