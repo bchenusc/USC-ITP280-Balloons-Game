@@ -49,4 +49,13 @@ public class script_guy_control : MonoBehaviour {
 	public void changeGrounded(bool ground) {
 		grounded = ground;
 	}
+	
+	void OnTriggerEnter(Collider other) {
+		if (other.transform.CompareTag("balloon")) {
+			rigidbody.useGravity = false;
+			transform.parent = other.transform;
+			sprite.frameIndex = 4;
+			other.transform.GetComponent<script_balloon_float>().has_Guy(true);
+		}
+	}
 }
