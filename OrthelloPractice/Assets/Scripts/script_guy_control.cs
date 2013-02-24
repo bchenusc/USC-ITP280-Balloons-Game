@@ -43,17 +43,10 @@ public class script_guy_control : MonoBehaviour {
 			sprite.speed = 0;
 			sprite.frameIndex = 0;
 			transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
-			
 		}
 	}
 	
-	void OnCollisionEnter(Collision other) {
-		Vector3 relativePosition = transform.InverseTransformPoint(other.contacts[0].normal);
-		if (relativePosition.y < 0) grounded = true;
-	}
-	
-	void OnCollisionExit(Collision other) {
-		Vector3 relativePosition = transform.InverseTransformPoint(other.contacts[0].normal);
-		if (relativePosition.y >= 0) grounded = false;
+	public void changeGrounded(bool ground) {
+		grounded = ground;
 	}
 }
