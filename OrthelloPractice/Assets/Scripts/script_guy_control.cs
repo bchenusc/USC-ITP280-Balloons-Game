@@ -9,8 +9,13 @@ public class script_guy_control : MonoBehaviour {
 	private OTAnimatingSprite sprite;
 	public int animSpeed = 5;
 	
+	void Awake(){
+		Physics.IgnoreLayerCollision(0,8);	
+	}
+	
 	// Use this for initialization
 	void Start () {
+		//Physics.IgnoreCollision(bullet.collider, collider);
 		sprite = transform.GetComponent<OTAnimatingSprite>();
 		sprite.speed = 0;
 		grounded = false;

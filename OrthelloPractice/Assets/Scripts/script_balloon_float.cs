@@ -26,6 +26,13 @@ public class script_balloon_float : MonoBehaviour {
 			transform.position = new Vector3(transform.position.x, new_y, transform.position.z);
 		} else {
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x, 300, 0);
+			
+			if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+				rigidbody.velocity = new Vector3(-250, rigidbody.velocity.y, 0);
+			}
+			if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+				rigidbody.velocity = new Vector3(250, rigidbody.velocity.y, 0);
+			}
 		}
 	}
 	
