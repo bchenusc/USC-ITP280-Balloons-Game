@@ -33,6 +33,9 @@ public class script_balloon_float : MonoBehaviour {
 			if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
 				rigidbody.velocity = new Vector3(250, rigidbody.velocity.y, 0);
 			}
+			if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+			}
 		}
 	}
 	
