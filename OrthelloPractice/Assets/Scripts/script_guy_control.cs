@@ -4,7 +4,7 @@ using System.Collections;
 //Comment Comment
 
 public class script_guy_control : MonoBehaviour {
-	private bool has_balloon;
+	public bool has_balloon;
 	private bool grounded;
 	private OTAnimatingSprite sprite;
 	public int animSpeed = 5;
@@ -15,7 +15,6 @@ public class script_guy_control : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		//Physics.IgnoreCollision(bullet.collider, collider);
 		sprite = transform.GetComponent<OTAnimatingSprite>();
 		sprite.speed = 0;
 		grounded = false;
@@ -64,14 +63,30 @@ public class script_guy_control : MonoBehaviour {
 		grounded = ground;
 	}
 	
+	public void changeHasBalloon(bool hasballoon){
+		has_balloon = hasballoon;	
+	}
+	
+	public void changeGravity(bool gravity){
+		rigidbody.useGravity = gravity;	
+	}
+	
 	void OnTriggerEnter(Collider other) {
 		if (other.transform.CompareTag("balloon")) {
 			other.transform.position = new Vector3(other.transform.position.x, transform.position.y + 20, other.transform.position.z);
 			has_balloon = true;
-			rigidbody.useGravity = false;
+			changeGravity(false);
 			transform.parent = other.transform;
 			sprite.frameIndex = 4;
 			other.transform.GetComponent<script_balloon_float>().has_Guy(true);
 		}
 	}
+	
+	/*void OnTriggerExit(Collider other){
+		if (other.transform.CompareTag("balloon")){
+			has_balloon = false;	
+			grounded = false;
+		}
+	}
+	*/
 }
