@@ -17,7 +17,7 @@ public class script_player_move : MonoBehaviour {
 	
 	//Player settings
 	private int ground_speed = 300;
-	private int air_speed = 300;
+	private int air_speed = 200;
 	private int rise_speed = 100;
 	
 	void Awake(){
@@ -86,7 +86,7 @@ public class script_player_move : MonoBehaviour {
 				sprite.flipHorizontal = false;
 			}
 			if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
-				rigidbody.velocity = new Vector3(rigidbody.velocity.x, rigidbody.velocity.y, 0);
+				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
 				sprite.speed = 0;
 				sprite.frameIndex = 0;
 				transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
