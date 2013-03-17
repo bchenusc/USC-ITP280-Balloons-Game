@@ -49,12 +49,13 @@ public class script_player_move : MonoBehaviour {
 				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
 			}
 			if (!too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
-				rigidbody.velocity = new Vector3(-air_speed, rigidbody.velocity.y, 0);
 				sprite.flipHorizontal = true;
+				rigidbody.velocity = new Vector3(-air_speed, rigidbody.velocity.y, 0);
+				
 			}
 			if (!too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
-				rigidbody.velocity = new Vector3(air_speed, rigidbody.velocity.y, 0);
 				sprite.flipHorizontal = false;
+				rigidbody.velocity = new Vector3(air_speed, rigidbody.velocity.y, 0);
 			}
 			if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
 				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
@@ -100,6 +101,7 @@ public class script_player_move : MonoBehaviour {
 	}
 	
 	public void changeHasBalloon(bool hasballoon){
+		rigidbody.velocity = new Vector3(0,0,0);
 		has_balloon = hasballoon;	
 	}
 	
