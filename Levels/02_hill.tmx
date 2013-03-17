@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="64" height="48" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
+  <image source="../Balloons/tileset.jpg" width="320" height="320"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="64" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztmgFuwjAMRQPjDtvN2ju0V2B32O4Ad2CnW5BmyfLi2EGJI7n+0lcRUYGX76RtwpJSWtN/LY69Fo5Um2PviBtMBe2nP58H+WTkM3lN64Hj96pnHRyZXxr/wR/8we9XEj93XfSiyD/4g1++//UqzL9X2r0K82+Vdq8Cvj0dO394HubavSr4Zf7F9BfZSuKH9QGvivyDv8YP98ZeFfzBH/zBb80vrTtYaRY/fB/3vVayvv7j3One24w60PCX1gVeFc6d7sXOqAOr5z8ud+0+/ChZ8XO503nAej4Yzd+au3UdjOZvzd26Dkbx13LHa46z62DU/kctd2hb0/w66M0vjXf6v6PWY2/13v+Rxjvth9Zjb/Xa/5FyoxytueOa6lkH0v6Ptt+5vLi61+ZNx07vOsBzMfBfsz8bz9fm35r7Rt6TxitIy4A/G/i/sr8V56Yk5y7lrW2n+UvPC1oGWltP3bLvyvNG54/nplL+XB1wDG/ZF4Yf+vOR/SPwvzp/tx6xS/lzdcAxvGd/VPhLfXsEl/r0SP4FIaZNPg==
+  </data>
+ </layer>
+</map>
