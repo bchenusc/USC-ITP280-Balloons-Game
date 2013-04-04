@@ -37,16 +37,17 @@ public class script_player_move : MonoBehaviour {
 	// Update is called once per frame
 	// Sprite horizontal default = facing right
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.R)) {
+		 	Application.LoadLevel(0);	
+		}
+		
 		if (has_balloon) {
 			#region HAS_BALLOON
 			sprite.frameIndex = 4;
 			if (keep_rising){
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x, rise_speed, 0);
 			}
-			// Adjust balloon sprite orientation relative to player
-			if (sprite.flipHorizontal == true)
-				balloon.position = new Vector3(transform.position.x - 6, transform.position.y + 20,transform.position.z);
-			else balloon.position = new Vector3(transform.position.x + 5, transform.position.y + 20, transform.position.z);
+			balloon.position = new Vector3(transform.position.x + 5, transform.position.y + 20, transform.position.z);
 			
 			// If both left and right
 			if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
@@ -54,13 +55,11 @@ public class script_player_move : MonoBehaviour {
 			}
 			// If Left and not right and not too far left
 			if (!too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
-				sprite.flipHorizontal = true;
 				rigidbody.velocity = new Vector3(-air_speed, rigidbody.velocity.y, 0);
 				
 			}
 			// If right and not left and not too far right
 			if (!too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
-				sprite.flipHorizontal = false;
 				rigidbody.velocity = new Vector3(air_speed, rigidbody.velocity.y, 0);
 			}
 			//If not left and not right
@@ -105,7 +104,11 @@ public class script_player_move : MonoBehaviour {
 				sprite.frameIndex = 0;
 				transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
 			}
-			
+			if(!grounded) {
+				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+				sprite.speed = 0;
+				sprite.frameIndex = 0;
+			}
 			#endregion
 		}
 	}
