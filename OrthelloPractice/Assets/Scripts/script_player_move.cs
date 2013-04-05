@@ -44,32 +44,70 @@ public class script_player_move : MonoBehaviour {
 		if (has_balloon) {
 			#region HAS_BALLOON
 			sprite.frameIndex = 4;
-			if (keep_rising){
-				rigidbody.velocity = new Vector3(rigidbody.velocity.x, rise_speed, 0);
-			}
 			if (sprite.flipHorizontal == false) {
 				balloon.position = new Vector3(transform.position.x + 5, transform.position.y + 20, transform.position.z);
 			} else {
 				balloon.position = new Vector3(transform.position.x - 6, transform.position.y + 20, transform.position.z);	
 			}
-			
+			Debug.Log(rigidbody.velocity);
+		if (!hit_top){
 			// If both left and right
 			if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
-				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+				rigidbody.velocity = new Vector3(0, rise_speed, 0);
+				
 			}
 			// If Left and not right and not too far left
 			if (!too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
-				rigidbody.velocity = new Vector3(-air_speed, rigidbody.velocity.y, 0);
+				rigidbody.velocity = new Vector3(-air_speed, rise_speed, 0);
 				
+			}
+			if (too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)){
+				rigidbody.velocity = new Vector3(0,rise_speed,0);
 			}
 			// If right and not left and not too far right
 			if (!too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
-				rigidbody.velocity = new Vector3(air_speed, rigidbody.velocity.y, 0);
+				rigidbody.velocity = new Vector3(air_speed, rise_speed, 0);
 			}
+			
+			if (too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+				rigidbody.velocity = new Vector3(0, rise_speed, 0);
+			}
+			
 			//If not left and not right
 			if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
-				rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+				rigidbody.velocity = new Vector3(0, rise_speed, 0);
 				transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
+			}
+		}
+		else {
+			if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
+				rigidbody.velocity = new Vector3(0, 0, 0);
+				
+			}
+			// If Left and not right and not too far left
+			if (!too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+				rigidbody.velocity = new Vector3(-air_speed, 0, 0);
+				
+			}
+			if (too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)){
+				rigidbody.velocity = new Vector3(0,0,0);
+			}
+			// If right and not left and not too far right
+			if (!too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+				rigidbody.velocity = new Vector3(air_speed, 0, 0);
+			}
+			
+			if (too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+				rigidbody.velocity = new Vector3(0, 0, 0);
+			}
+			
+			//If not left and not right
+			if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+				rigidbody.velocity = new Vector3(0, 0, 0);
+				transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
+			}	
+				
+				
 			}
 #endregion
 			
@@ -117,6 +155,17 @@ public class script_player_move : MonoBehaviour {
 		}
 	}
 	
+	public void toggleRisingVelocity(bool yes){
+		if (yes){rigidbody.velocity = new Vector3(0, rise_speed, 0);}
+		else {rigidbody.velocity = new Vector3(0,0,0);
+			Debug.Log("toggled");
+		}
+	}
+	
+	public void hitTop(bool topped){
+		hit_top = topped;
+	}
+	
 	public void changeGrounded(bool ground) {
 		grounded = ground;
 	}
@@ -132,7 +181,9 @@ public class script_player_move : MonoBehaviour {
 	
 	public void changeRising(bool rise){
 		//Keep rising or stop?
-		keep_rising = rise;	
+		//keep_rising = rise;
+		if (rise){toggleRisingVelocity(true);}
+		else toggleRisingVelocity(false);
 	}
 	
 	
@@ -143,9 +194,10 @@ public class script_player_move : MonoBehaviour {
 		too_far_right = right;	
 	}
 	
-	public void stop_X_velocity(){
+	/*public void stop_X_velocity(){
 		transform.rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
 	}
+	*/
 	
 	public void toggleManCollider(bool toggle){
 		if (toggle){
@@ -169,12 +221,13 @@ public class script_player_move : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other) {
 		if (other.transform.CompareTag("balloon")) {
-			changeRising(true);
+			
 			toggleManCollider(true);
 			balloon = other.transform;
 			other.transform.position = new Vector3(other.transform.position.x, transform.position.y + 20, other.transform.position.z);
 			changeGravity(false);
 			changeHasBalloon(true);
+			changeRising(true);
 			sprite.frameIndex = 4;	
 		}
 	}
