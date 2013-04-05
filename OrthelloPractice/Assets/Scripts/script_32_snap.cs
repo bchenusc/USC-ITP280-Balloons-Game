@@ -16,9 +16,4 @@ public class script_32_snap : MonoBehaviour {
 		
 		transform.position = new Vector2(new_x, new_y);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

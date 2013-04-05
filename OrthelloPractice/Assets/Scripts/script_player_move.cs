@@ -6,7 +6,7 @@ public class script_player_move : MonoBehaviour {
 	private bool grounded;
 	
 	private bool hit_top;
-	private bool keep_rising;
+	public bool keep_rising;
 	
 	private bool too_far_left;
 	private bool too_far_right;
@@ -18,7 +18,7 @@ public class script_player_move : MonoBehaviour {
 	//Player settings
 	private int ground_speed = 300;
 	private int air_speed = 200;
-	private int rise_speed = 100;
+	private int rise_speed = 150;
 	
 	void Awake(){
 		Physics.IgnoreLayerCollision(0,8);	
@@ -47,7 +47,11 @@ public class script_player_move : MonoBehaviour {
 			if (keep_rising){
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x, rise_speed, 0);
 			}
-			balloon.position = new Vector3(transform.position.x + 5, transform.position.y + 20, transform.position.z);
+			if (sprite.flipHorizontal == false) {
+				balloon.position = new Vector3(transform.position.x + 5, transform.position.y + 20, transform.position.z);
+			} else {
+				balloon.position = new Vector3(transform.position.x - 6, transform.position.y + 20, transform.position.z);	
+			}
 			
 			// If both left and right
 			if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
@@ -171,8 +175,7 @@ public class script_player_move : MonoBehaviour {
 			other.transform.position = new Vector3(other.transform.position.x, transform.position.y + 20, other.transform.position.z);
 			changeGravity(false);
 			changeHasBalloon(true);
-			sprite.frameIndex = 4;
-			
+			sprite.frameIndex = 4;	
 		}
 	}
 }

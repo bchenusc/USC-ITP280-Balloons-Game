@@ -15,11 +15,11 @@ public class script_player_horizontal_col : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if (usingLeft && other.transform.CompareTag("tile")){
 			player_script.tooFarLeft(true);
-			player_script.stop_X_velocity();
+			//player_script.stop_X_velocity();
 		}
 		if (!usingLeft && other.transform.CompareTag("tile")){
 			player_script.tooFarRight(true);	
-			player_script.stop_X_velocity();
+			//player_script.stop_X_velocity();
 		}
 	}
 	void OnTriggerExit(Collider other){

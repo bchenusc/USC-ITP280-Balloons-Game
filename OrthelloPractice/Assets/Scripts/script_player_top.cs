@@ -14,5 +14,15 @@ public class script_player_top : MonoBehaviour {
 				player_script.destroyBalloon();
 			}
 		}
+		if(other.transform.CompareTag ("tile")){
+				player_script.changeRising(false);
+			
+		}
 	}
-}
+	
+	void OnTriggerExit(Collider other){
+		if (other.transform.CompareTag("tile")){
+			player_script.changeRising(true);	
+		}
+	}
+}	

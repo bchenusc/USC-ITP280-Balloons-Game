@@ -5,7 +5,22 @@ public class OTClipSprite : OTSprite {
 	
 	public Rect _clipRect = new Rect(0,0,1,1);
 	public float _clipFactor = 1;
-
+	public bool _onlyClipUV = false;
+	
+	
+	public bool onlyClipUV
+	{
+		get{
+			return _onlyClipUV;			
+		}
+		set {
+			_onlyClipUV = value;
+			CheckSettings();
+			if (meshDirty)
+				Update();
+		}
+	}
+	
 	Rect clipRect_;
 	/// <summary>
 	/// clip the sprite using this 'visible' area Rect(0,0,1,1)
@@ -59,15 +74,17 @@ public class OTClipSprite : OTSprite {
 		
 		
 		
-		if (_clipFactor!=clipFactor_ || !_clipRect.Equals(clipRect_))
+		if (_clipFactor!=clipFactor_ || !_clipRect.Equals(clipRect_) || (_onlyClipUV != onlyClipUV_))
 		{			
 			meshDirty = true;
 			clipRect_ = _clipRect;
 			clipFactor_ = _clipFactor;
+			onlyClipUV_ = _onlyClipUV;
 		}
 	}
 	
 	float clipFactor_ = 1;
+	bool onlyClipUV_ = false;
 	/// <summary>
 	/// Set the size the clipRect Area, 0 to 1
 	/// </summary>
@@ -93,6 +110,7 @@ public class OTClipSprite : OTSprite {
 	new protected void Awake () {
 		clipRect_ = _clipRect;
 		clipFactor_ = _clipFactor;
+		onlyClipUV_ = _onlyClipUV;
 		base.Awake();	
 	}
 
@@ -210,14 +228,15 @@ public class OTClipSprite : OTSprite {
 			
 			if (clipFactor<1)
 				FactorClip(ref _mTop, ref _mLeft, ref _mBottom, ref _mRight);
-			
-			mesh.vertices = new Vector3[] { 
-	                new Vector3(_mLeft, _mTop, 0),		// topleft
-	                new Vector3(_mRight, _mTop, 0),		// topright
-	                new Vector3(_mRight, _mBottom, 0),	// botright
-	                new Vector3(_mLeft, _mBottom, 0)		// botleft
-	            };        	
 
+			
+			if (!onlyClipUV)
+				mesh.vertices = new Vector3[] { 
+		                new Vector3(_mLeft, _mTop, 0),		// topleft
+		                new Vector3(_mRight, _mTop, 0),		// topright
+		                new Vector3(_mRight, _mBottom, 0),	// botright
+		                new Vector3(_mLeft, _mBottom, 0)		// botleft
+		            };        	
 			
 			
 			AdjustUV();

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 /// <summary>
 /// Useful Orthello static helper functions
@@ -40,6 +41,9 @@ public class OTHelper {
 				ChildrenSetLayer(child.gameObject,layer,exclude);
 			}
 	}
+	/// <summary>
+	/// Sets the layer of the childrens of the provided parent
+	/// </summary>
 	public static void ChildrenSetLayer(GameObject parent, int layer)
 	{
 		ChildrenSetLayer(parent,layer,null);
@@ -65,7 +69,7 @@ public class OTHelper {
 	}
 
 	/// <summary>
-	/// Converts world coordinate based Rectangle to Bounds
+	/// Converts a gameobject's parent local point to world coordinate
 	/// </summary>
 	public static Vector3 WorldPoint(GameObject g, Vector3 point)
 	{
@@ -75,11 +79,83 @@ public class OTHelper {
 			return g.transform.parent.localToWorldMatrix.MultiplyPoint3x4(point);
 	}
 	
+	/// <summary>
 	/// loads a texture from resources
+	/// </summary>
 	public static Texture2D ResourceTexture(string filename)
 	{
 		Texture2D tex = Resources.Load(filename, typeof(Texture2D)) as Texture2D;
 		return  tex;
+	}
+	/// <summary>
+	/// loads xml from resources
+	/// </summary>
+	public static XmlDocument ResourceXML(string filename)
+	{
+		XmlDocument xml = null;
+		TextAsset txt = Resources.Load(filename, typeof(TextAsset)) as TextAsset;
+		if (txt!=null)
+		{
+			try
+			{
+				xml.LoadXml(txt.text);
+			}
+			catch(System.Exception)
+			{
+				xml = null;
+			}
+		}
+		return  xml;
+	}
+	
+	/// <summary>
+	/// Lightens color to white
+	/// </summary>
+	public static Color Lighter(Color c, int perc)
+	{
+		return Color.Lerp(c,Color.white,(float)perc/100);
+	}
+	
+	/// <summary>
+	/// Darkens color to black
+	/// </summary>
+	public static Color Darker(Color c, int perc)
+	{
+		return Color.Lerp(c,Color.black,(float)perc/100);
+	}
+	
+	/// <summary>
+	/// Converts a string with format '(x,y)' or 'x,y' to a Vector2
+	/// </summary>
+	/// <returns>
+	public static Vector2 StringVector2(string vector2)
+	{
+		string v = vector2;
+		if (vector2.IndexOf("(")==0)
+			v = v.Substring(1, v.Length-2);
+			
+		string[] va = v.Split(',');
+		if (va.Length == 2)
+			return new Vector2((float)System.Convert.ToDouble(va[0]),(float)System.Convert.ToDouble(va[1]));
+		
+		return Vector2.zero;
+	}
+	
+	/// <summary>
+	/// Converts a string with format '(x,y,z)' or 'x,y,z' to a Vector3
+	/// </summary>
+	/// <returns>
+	public static Vector3 StringVector3(string vector3)
+	{
+		string v = vector3;
+		if (vector3.IndexOf("(")==0)
+			v = v.Substring(1, v.Length-2);
+			
+		string[] va = v.Split(',');
+		if (va.Length == 3)
+			return new Vector3((float)System.Convert.ToDouble(va[0]),(float)System.Convert.ToDouble(va[1]), (float)System.Convert.ToDouble(va[2]));
+		
+		return Vector3.zero;
 	}
 	
 
