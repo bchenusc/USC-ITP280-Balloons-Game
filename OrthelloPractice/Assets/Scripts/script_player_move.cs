@@ -49,7 +49,6 @@ public class script_player_move : MonoBehaviour {
 			} else {
 				balloon.position = new Vector3(transform.position.x - 6, transform.position.y + 20, transform.position.z);	
 			}
-			Debug.Log(rigidbody.velocity);
 		if (!hit_top){
 			// If both left and right
 			if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
@@ -157,8 +156,8 @@ public class script_player_move : MonoBehaviour {
 	
 	public void toggleRisingVelocity(bool yes){
 		if (yes){rigidbody.velocity = new Vector3(0, rise_speed, 0);}
-		else {rigidbody.velocity = new Vector3(0,0,0);
-			Debug.Log("toggled");
+		else {
+			rigidbody.velocity = new Vector3(0,0,0);
 		}
 	}
 	
