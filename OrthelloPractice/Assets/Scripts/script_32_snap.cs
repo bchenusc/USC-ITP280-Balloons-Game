@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-//comment comment
-
 public class script_32_snap : MonoBehaviour {
 	
 	public float snap_to_x = 32f, snap_to_y = 32f;

@@ -15,6 +15,8 @@ public class script_player_move : MonoBehaviour {
 	public int animSpeed = 5;
 	Transform balloon;
 	
+	script_persistent persistentScript;
+	
 	//Player settings
 	private int ground_speed = 300;
 	private int air_speed = 200;
@@ -32,13 +34,14 @@ public class script_player_move : MonoBehaviour {
 		grounded = false;
 		keep_rising = false;
 		has_balloon = false;
+		persistentScript = GameObject.Find("Persistent").GetComponent<script_persistent>();
 	}
 	
 	// Update is called once per frame
 	// Sprite horizontal default = facing right
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.R)) {
-		 	Application.LoadLevel(0);	
+		 	Application.LoadLevel(persistentScript.current_level);
 		}
 		
 		if (has_balloon) {

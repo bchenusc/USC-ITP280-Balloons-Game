@@ -7,6 +7,6 @@ public class script_persistent : MonoBehaviour {
 	public int last_level = 0;
 	
 	void Awake(){
-	   DontDestroyOnLoad (transform.gameObject);
+		DontDestroyOnLoad (transform.gameObject);
 	}
 }
