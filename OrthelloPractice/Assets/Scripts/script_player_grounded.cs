@@ -8,7 +8,7 @@ public class script_player_grounded : MonoBehaviour {
 		player_script = transform.parent.GetComponent<script_player_move>();	
 	}
 	
-	void OnTriggerEnter(Collider other){
+	void OnTriggerStay(Collider other){
 		if (other.transform.CompareTag("tile")){
 			player_script.changeGrounded(true);	
 		}
