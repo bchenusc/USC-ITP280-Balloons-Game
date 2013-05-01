@@ -22,7 +22,7 @@ public class script_player_top : MonoBehaviour {
 	
 	void OnTriggerExit(Collider other){
 		if (other.transform.CompareTag("tile")){
-			player_script.changeRising(true);
+			//player_script.changeRising(true);
 			player_script.hitTop(false);
 		}
 	}
