@@ -46,6 +46,16 @@ public class script_player_move : MonoBehaviour {
 		 	Application.LoadLevel(persistentScript.current_level);
 		}
 		
+		#region ORIENTATION
+		if (!usingKeyboard) {
+			if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft) {
+				Screen.orientation = ScreenOrientation.LandscapeLeft;
+			} else if (Input.deviceOrientation == DeviceOrientation.LandscapeRight) {
+				Screen.orientation = ScreenOrientation.LandscapeRight;
+			}
+		}
+		#endregion
+		
 		if (has_balloon) {
 			#region HAS_BALLOON_KEYBOARD
 			if (usingKeyboard) {
