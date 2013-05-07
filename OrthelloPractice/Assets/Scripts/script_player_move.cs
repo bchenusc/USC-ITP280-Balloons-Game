@@ -42,7 +42,7 @@ public class script_player_move : MonoBehaviour {
 	// Update is called once per frame
 	// Sprite horizontal default = facing right
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.R)) {
+		if (usingKeyboard && Input.GetKeyDown(KeyCode.R)) {
 		 	Application.LoadLevel(persistentScript.current_level);
 		}
 		
