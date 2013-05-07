@@ -21,10 +21,12 @@ public class script_restart_button : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
 			if (Physics.Raycast (Camera.main.ScreenPointToRay(Input.mousePosition), out hit)){
-				sprite.frameIndex = 1;
-				pressed = true;
-				Application.LoadLevel(persistent.current_level);
-				return;
+				if (hit.transform.name == "pref_restart_button") {
+					sprite.frameIndex = 1;
+					pressed = true;
+					Application.LoadLevel(persistent.current_level);
+					return;
+				}
 			}
 		}
 		
