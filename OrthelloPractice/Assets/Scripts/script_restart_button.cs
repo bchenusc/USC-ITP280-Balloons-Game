@@ -23,6 +23,7 @@ public class script_restart_button : MonoBehaviour {
 			if (Physics.Raycast (Camera.main.ScreenPointToRay(Input.mousePosition), out hit)){
 				sprite.frameIndex = 1;
 				pressed = true;
+				Application.LoadLevel(persistent.current_level);
 				return;
 			}
 		}
@@ -31,7 +32,6 @@ public class script_restart_button : MonoBehaviour {
 			sprite.frameIndex = 0;
 			if (pressed) {
 				pressed = false;
-				Application.LoadLevel(persistent.current_level);
 			}
 		}
 	}
