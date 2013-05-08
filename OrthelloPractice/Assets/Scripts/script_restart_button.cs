@@ -8,7 +8,8 @@ public class script_restart_button : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - transform.localScale.x/2, Screen.height - transform.localScale.y/2, 0));
+		transform.localScale = new Vector3(Screen.width/16, Screen.width/16, 1);
+		transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - Screen.width/32 - transform.localScale.x/2, Screen.height - Screen.height/32 - transform.localScale.y/2, 0));
 		
 		persistent = GameObject.Find("Persistent(Clone)").gameObject.GetComponent<script_persistent>();
 		sprite = transform.GetComponent<OTAnimatingSprite>();
