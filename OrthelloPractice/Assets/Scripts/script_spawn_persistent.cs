@@ -5,8 +5,7 @@ public class script_spawn_persistent : MonoBehaviour {
 	
 	public Transform persistentPref;
 	
-	// Use this for initialization
-	void Start () {
+	void Awake () {
 		if (GameObject.Find("Persistent") == null){
 			Instantiate(persistentPref, Vector3.zero, Quaternion.identity);
 		}

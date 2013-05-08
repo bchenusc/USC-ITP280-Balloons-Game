@@ -7,12 +7,7 @@ public class script_main_menu : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		persistent = GameObject.Find("Persistent").gameObject.GetComponent<script_persistent>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		persistent = GameObject.Find("Persistent(Clone)").gameObject.GetComponent<script_persistent>();
 	}
 	
 	void OnGUI() {

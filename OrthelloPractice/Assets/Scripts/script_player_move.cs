@@ -36,7 +36,7 @@ public class script_player_move : MonoBehaviour {
 		grounded = false;
 		keep_rising = false;
 		has_balloon = false;
-		persistentScript = GameObject.Find("Persistent").GetComponent<script_persistent>();
+		persistentScript = GameObject.Find("Persistent(Clone)").GetComponent<script_persistent>();
 	}
 	
 	// Update is called once per frame

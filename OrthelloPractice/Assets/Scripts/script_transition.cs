@@ -6,7 +6,7 @@ public class script_transition : MonoBehaviour {
 	script_persistent persistentScript;
 	
 	void Start(){
-		persistentScript = GameObject.Find("Persistent").GetComponent<script_persistent>();
+		persistentScript = GameObject.Find("Persistent(Clone)").GetComponent<script_persistent>();
 	}
 	
 	void OnTriggerEnter(Collider other) {

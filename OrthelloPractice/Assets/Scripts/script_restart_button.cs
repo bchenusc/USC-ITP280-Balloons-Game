@@ -10,7 +10,7 @@ public class script_restart_button : MonoBehaviour {
 	void Start () {
 		transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - transform.localScale.x/2, Screen.height - transform.localScale.y/2, 0));
 		
-		persistent = GameObject.Find("Persistent").gameObject.GetComponent<script_persistent>();
+		persistent = GameObject.Find("Persistent(Clone)").gameObject.GetComponent<script_persistent>();
 		sprite = transform.GetComponent<OTAnimatingSprite>();
 		sprite.speed = 0;
 		pressed = false;
