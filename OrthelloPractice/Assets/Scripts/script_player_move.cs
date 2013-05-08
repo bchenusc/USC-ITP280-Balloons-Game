@@ -335,9 +335,9 @@ public class script_player_move : MonoBehaviour {
 			if (!usingKeyboard) {
 				sprite.frameIndex = 4;
 				if (sprite.flipHorizontal == false) {
-					balloon.position = new Vector3(transform.position.x, transform.position.y-32, transform.position.z);
+					balloon.position = new Vector3(transform.position.x, transform.position.y-20, transform.position.z);
 				} else {
-					balloon.position = new Vector3(transform.position.x, transform.position.y-32, transform.position.z);	
+					balloon.position = new Vector3(transform.position.x, transform.position.y-20, transform.position.z);	
 				}
 				if (hit_top==0) {					
 					// If Left and not right and not too far left
