@@ -21,8 +21,8 @@ public class script_player_move : MonoBehaviour {
 	
 	//Player settings
 	private int ground_speed = 300;
-	private int air_speed = 200;
-	private int rise_speed = 200;
+	private int air_speed = 175;
+	private int rise_speed = 250;
 	
 	void Awake(){
 		Physics.IgnoreLayerCollision(0,8);	
