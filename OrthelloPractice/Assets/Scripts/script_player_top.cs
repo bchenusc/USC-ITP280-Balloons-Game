@@ -10,20 +10,19 @@ public class script_player_top : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other){
 		if (other.transform.CompareTag("spikes")){
-			if (player_script.has_balloon){
+			if (player_script.has_balloon==1){
 				player_script.destroyBalloon();
 			}
 		}
 		if(other.transform.CompareTag ("tile")){
-				player_script.changeRising(false);
-				player_script.hitTop(true);
+				player_script.changeRising(0);
+				player_script.hitTop(1);
 		}
 	}
 	
 	void OnTriggerExit(Collider other){
 		if (other.transform.CompareTag("tile")){
-			//player_script.changeRising(true);
-			player_script.hitTop(false);
+			player_script.hitTop(0);
 		}
 	}
 }	

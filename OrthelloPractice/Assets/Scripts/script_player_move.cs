@@ -4,10 +4,10 @@ using System.Collections;
 public class script_player_move : MonoBehaviour {
 	public bool usingKeyboard = false;
 	
-	public bool has_balloon;
+	public int has_balloon; // 0 - no balls, 1 - up balls, 2- down balls
 	private bool grounded;
 	
-	private bool hit_top;
+	private int hit_top;
 	public bool keep_rising;
 	
 	private bool too_far_left;
@@ -35,14 +35,14 @@ public class script_player_move : MonoBehaviour {
 		sprite.speed = 0;
 		grounded = false;
 		keep_rising = false;
-		has_balloon = false;
+		has_balloon = 0;
 		persistentScript = GameObject.Find("Persistent(Clone)").GetComponent<script_persistent>();
 	}
 	
 	// Update is called once per frame
 	// Sprite horizontal default = facing right
 	void Update () {
-		if (usingKeyboard && Input.GetKeyDown(KeyCode.R)) {
+		if (Input.GetKeyDown(KeyCode.R)) {
 		 	Application.LoadLevel(persistentScript.current_level);
 		}
 		
@@ -56,7 +56,7 @@ public class script_player_move : MonoBehaviour {
 		}
 		#endregion
 		
-		if (has_balloon) {
+		if (has_balloon == 1) {
 			#region HAS_BALLOON_KEYBOARD
 			if (usingKeyboard) {
 				sprite.frameIndex = 4;
@@ -65,7 +65,7 @@ public class script_player_move : MonoBehaviour {
 				} else {
 					balloon.position = new Vector3(transform.position.x - 6, transform.position.y + 20, transform.position.z);	
 				}
-				if (!hit_top) {
+				if (hit_top==0) {
 					// If both left and right
 					if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
 						rigidbody.velocity = new Vector3(0, rise_speed, 0);
@@ -131,7 +131,7 @@ public class script_player_move : MonoBehaviour {
 				} else {
 					balloon.position = new Vector3(transform.position.x - 6, transform.position.y + 20, transform.position.z);	
 				}
-				if (!hit_top) {					
+				if (hit_top==0) {					
 					// If Left and not right and not too far left
 					if (!too_far_left && Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2) {
 						rigidbody.velocity = new Vector3(-air_speed, rise_speed, 0);	
@@ -180,6 +180,7 @@ public class script_player_move : MonoBehaviour {
 			}
 			#endregion
 		} else {
+			if (has_balloon==0){
 			#region NO_BALLOON_KEYBOARD
 			if (usingKeyboard) {
 				// If grounded and both left and right
@@ -262,17 +263,148 @@ public class script_player_move : MonoBehaviour {
 				}
 			}
 			#endregion
+			}
+			else if(has_balloon==-1){
+			#region FALLING BALLOON KEYBOARD
+			if (usingKeyboard) {
+				sprite.frameIndex = 4;
+				if (sprite.flipHorizontal == false) {
+					balloon.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+				} else {
+					balloon.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);	
+				}
+				if (hit_top==0) {
+					// If both left and right
+					if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
+						rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+					}
+					
+					// If Left and not right and not too far left
+					if (!too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+						rigidbody.velocity = new Vector3(-air_speed, -rise_speed, 0);	
+					}
+					if (too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)){
+						rigidbody.velocity = new Vector3(0,-rise_speed,0);
+					}
+					
+					// If right and not left and not too far right
+					if (!too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+						rigidbody.velocity = new Vector3(air_speed, -rise_speed, 0);
+					}
+					
+					if (too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+						rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+					}
+					
+					//If not left and not right
+					if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+						rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+						transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
+					}
+				}
+				else {
+					if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)) {
+						rigidbody.velocity = new Vector3(0, 0, 0);	
+					}
+					
+					// If Left and not right and not too far left
+					if (!too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+						rigidbody.velocity = new Vector3(-air_speed, 0, 0);	
+					}
+					if (too_far_left && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)){
+						rigidbody.velocity = new Vector3(0,0,0);
+					}
+					
+					// If right and not left and not too far right
+					if (!too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+						rigidbody.velocity = new Vector3(air_speed, 0, 0);
+					}			
+					if (too_far_right && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+						rigidbody.velocity = new Vector3(0, 0, 0);
+					}
+					
+					//If not left and not right
+					if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+						rigidbody.velocity = new Vector3(0, 0, 0);
+						transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
+					}				
+				}
+			}
+			#endregion
+			#region FALLING BALLOON TOUCH
+			if (!usingKeyboard) {
+				sprite.frameIndex = 4;
+				if (sprite.flipHorizontal == false) {
+					balloon.position = new Vector3(transform.position.x, transform.position.y-32, transform.position.z);
+				} else {
+					balloon.position = new Vector3(transform.position.x, transform.position.y-32, transform.position.z);	
+				}
+				if (hit_top==0) {					
+					// If Left and not right and not too far left
+					if (!too_far_left && Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2) {
+						rigidbody.velocity = new Vector3(-air_speed, -rise_speed, 0);	
+					}
+					if (too_far_left && Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2){
+						rigidbody.velocity = new Vector3(0,-rise_speed,0);
+					}
+					
+					// If right and not left and not too far right
+					if (!too_far_right && Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width/2) {
+						rigidbody.velocity = new Vector3(air_speed, -rise_speed, 0);
+					}			
+					if (too_far_right && Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width/2) {
+						rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+					}
+					
+					//If not left and not right
+					if (!Input.GetMouseButton(0)) {
+						rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+						transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
+					}
+				}
+				else {
+					// If Left and not right and not too far left
+					if (!too_far_left && Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2) {
+						rigidbody.velocity = new Vector3(-air_speed, 0, 0);	
+					}
+					if (too_far_left && Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2){
+						rigidbody.velocity = new Vector3(0,0,0);
+					}
+					
+					// If right and not left and not too far right
+					if (!too_far_right && Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width/2) {
+						rigidbody.velocity = new Vector3(air_speed, 0, 0);
+					}			
+					if (too_far_right && Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width/2) {
+						rigidbody.velocity = new Vector3(0, 0, 0);
+					}
+					
+					//If not left and not right
+					if (!Input.GetMouseButton(0)) {
+						rigidbody.velocity = new Vector3(0, 0, 0);
+						transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), transform.position.z);
+					}				
+				}
+			}
+			#endregion	
+			}
 		}
 	}
 	
-	public void toggleRisingVelocity(bool yes){
-		if (yes){rigidbody.velocity = new Vector3(0, rise_speed, 0);}
+	public void toggleRisingVelocity(int yes){
+		//0 = none, -1 = falling, 1 = rising. 
+		if (yes == 1){rigidbody.velocity = new Vector3(0, rise_speed, 0);}
 		else {
-			rigidbody.velocity = new Vector3(0,0,0);
+			if (yes == 0)
+				rigidbody.velocity = new Vector3(0,0,0);
+			else
+				if (yes == -1){
+					rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+				}
 		}
 	}
 	
-	public void hitTop(bool topped){
+	public void hitTop(int topped){
 		hit_top = topped;
 	}
 	
@@ -280,7 +412,7 @@ public class script_player_move : MonoBehaviour {
 		grounded = ground;
 	}
 	
-	public void changeHasBalloon(bool hasballoon){
+	public void changeHasBalloon(int hasballoon){
 		rigidbody.velocity = new Vector3(0,0,0);
 		has_balloon = hasballoon;	
 	}
@@ -289,11 +421,13 @@ public class script_player_move : MonoBehaviour {
 		rigidbody.useGravity = gravity;	
 	}
 	
-	public void changeRising(bool rise){
-		//Keep rising or stop?
-		//keep_rising = rise;
-		if (rise){toggleRisingVelocity(true);}
-		else toggleRisingVelocity(false);
+	public void changeRising(int rise){
+		//Keep rising = 1
+		//stop rising = 0;
+		//keep falling = -1;
+		if (rise==1){toggleRisingVelocity(1);}
+		else if (rise==0)toggleRisingVelocity(0);
+		else if (rise==-1)toggleRisingVelocity(-1);
 	}
 	
 	
@@ -310,7 +444,7 @@ public class script_player_move : MonoBehaviour {
 	*/
 	
 	public void toggleManCollider(bool toggle){
-		if (toggle){
+		/*if (toggle){
 				transform.GetComponent<BoxCollider>().size = new Vector3(1,2,10);
 				transform.GetComponent<BoxCollider>().center = new Vector3(0,0.8f,0);
 		}
@@ -318,27 +452,40 @@ public class script_player_move : MonoBehaviour {
 			//Original size of player collider
 			transform.GetComponent<BoxCollider>().size = new Vector3 (1,1,1);
 			transform.GetComponent<BoxCollider>().center = new Vector3(0,0,0);
-		}
+		}*/
 	}
 	
 	public void destroyBalloon(){
 		Destroy(balloon.gameObject);
-		changeHasBalloon(false);
+		changeHasBalloon(0);
 		changeGravity(true);
 		toggleManCollider(false);
-		changeRising(false);
+		changeRising(0);
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		if (other.transform.CompareTag("balloon")) {
-			
+		if (other.transform.CompareTag("balloon")&&has_balloon==0) {
 			toggleManCollider(true);
 			balloon = other.transform;
 			other.transform.position = new Vector3(other.transform.position.x, transform.position.y + 20, other.transform.position.z);
 			changeGravity(false);
-			changeHasBalloon(true);
-			changeRising(true);
+			changeHasBalloon(1);
+			changeRising(1);
+			sprite.frameIndex = 4;	
+		}else
+		if (other.transform.CompareTag("fallingballoon")&&has_balloon==0) {
+			toggleManCollider(true);
+			balloon = other.transform;
+			other.transform.position = new Vector3(other.transform.position.x, transform.position.y + 20, other.transform.position.z);
+			changeGravity(false);
+			changeHasBalloon(-1);
+			changeRising(-1);
 			sprite.frameIndex = 4;	
 		}
+
+	}
+	
+	public void player_death(){
+		Application.LoadLevel(persistentScript.current_level);	
 	}
 }
