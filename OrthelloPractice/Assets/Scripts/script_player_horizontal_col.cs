@@ -8,7 +8,8 @@ public class script_player_horizontal_col : MonoBehaviour {
 	script_player_move player_script;
 	
 	void Start(){
-		player_script = transform.parent.GetComponent<script_player_move>();	
+		player_script = transform.parent.GetComponent<script_player_move>();
+		changeToBalloonSize(false);
 	}
 	
 	
@@ -26,6 +27,19 @@ public class script_player_horizontal_col : MonoBehaviour {
 		}
 		if (!usingLeft && other.transform.CompareTag("tile")){
 			player_script.tooFarRight(false);
+		}
+	}
+	
+	public void changeToBalloonSize(bool change){
+		if (change){
+			transform.position = new Vector3(transform.position.x, transform.parent.position.y+17, transform.position.z);
+			transform.localScale=new Vector3(0.2f, 2, 400);
+			
+		}
+		else {
+			transform.position = new Vector3 (transform.position.x, transform.parent.position.y-0.03f, transform.position.z);
+			transform.localScale = new Vector3(0.2f, 0.75f, 400);
+			
 		}
 	}
 }

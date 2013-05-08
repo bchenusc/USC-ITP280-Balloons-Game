@@ -24,6 +24,10 @@ public class script_player_move : MonoBehaviour {
 	private int air_speed = 175;
 	private int rise_speed = 250;
 	
+	//Children
+	script_player_horizontal_col leftColliderScript;
+	script_player_horizontal_col rightColliderScript;
+	
 	void Awake(){
 		Physics.IgnoreLayerCollision(0,8);	
 	}
@@ -31,12 +35,15 @@ public class script_player_move : MonoBehaviour {
 	// Use this for initialization
 	// On initialize, player is grounded and unmoving, is not rising and has no balloon
 	void Start () {
+		leftColliderScript = transform.Find("left_collider").GetComponent<script_player_horizontal_col>();
+		rightColliderScript = transform.Find("right_collider").GetComponent<script_player_horizontal_col>();
 		sprite = transform.GetComponent<OTAnimatingSprite>();
 		sprite.speed = 0;
 		grounded = false;
 		keep_rising = false;
 		has_balloon = 0;
 		persistentScript = GameObject.Find("Persistent(Clone)").GetComponent<script_persistent>();
+		
 	}
 	
 	// Update is called once per frame
@@ -393,14 +400,21 @@ public class script_player_move : MonoBehaviour {
 	
 	public void toggleRisingVelocity(int yes){
 		//0 = none, -1 = falling, 1 = rising. 
-		if (yes == 1){rigidbody.velocity = new Vector3(0, rise_speed, 0);}
+		if (yes == 1){
+			rigidbody.velocity = new Vector3(0, rise_speed, 0);
+			
+		}
 		else {
-			if (yes == 0)
+			if (yes == 0){
 				rigidbody.velocity = new Vector3(0,0,0);
-			else
+
+			}
+			else{
 				if (yes == -1){
 					rigidbody.velocity = new Vector3(0, -rise_speed, 0);
+
 				}
+			}
 		}
 	}
 	
@@ -414,7 +428,17 @@ public class script_player_move : MonoBehaviour {
 	
 	public void changeHasBalloon(int hasballoon){
 		rigidbody.velocity = new Vector3(0,0,0);
-		has_balloon = hasballoon;	
+		has_balloon = hasballoon;
+		
+		if (hasballoon==1){
+			leftColliderScript.changeToBalloonSize(true);
+			rightColliderScript.changeToBalloonSize(true);	
+		}
+		else{if (hasballoon==0){
+			leftColliderScript.changeToBalloonSize(false);
+			rightColliderScript.changeToBalloonSize(false);
+			}
+		}
 	}
 	
 	public void changeGravity(bool gravity){
