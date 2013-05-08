@@ -7,6 +7,16 @@ public class script_32_snap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
+		//Make correct size
+		if (transform.localScale.x >32){
+			transform.localScale = new Vector3((int)(transform.localScale.x / 32) * 32, transform.localScale.y, transform.localScale.z);
+		}
+		if(transform.localScale.y>32){
+			transform.localScale = new Vector3(transform.localScale.x, (int)(transform.localScale.y/32)*32, transform.localScale.z);	
+		}
+		
+		//Snap
 		float new_x, new_y;
 		
 		if ((transform.localScale.x / snap_to_x) % 2 == 0) {
@@ -22,5 +32,8 @@ public class script_32_snap : MonoBehaviour {
 		}
 		
 		transform.position = new Vector2(new_x, new_y);
+		
+
+		
 	}
 }
