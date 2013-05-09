@@ -11,6 +11,7 @@ public class script_falling_balloon : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		//Handles falling balloon pop.
 		if (other.transform.CompareTag("spikes")&&player_script.has_balloon==-1){
+				player_script.changeHasBalloon(0);
 				player_script.destroyBalloon();
 		}
 		
