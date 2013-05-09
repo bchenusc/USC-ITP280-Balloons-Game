@@ -28,7 +28,7 @@ public class script_persistent : MonoBehaviour {
 	
 	void OnGUI() {
 		if (displayRestart) {
-			if (GUI.Button(new Rect(Screen.width - Screen.width/8.5f, Screen.height/10f, Screen.width/15, Screen.width/15), "", restartStyle)) {
+			if (GUI.Button(new Rect(Screen.width - Screen.width/13f, Screen.height/40f, Screen.width/15, Screen.width/15), "", restartStyle)) {
 				Application.LoadLevel(current_level);
 			}
 		}
