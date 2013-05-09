@@ -8,6 +8,7 @@ public class script_persistent : MonoBehaviour {
 	public int last_level = 0;
 	
 	public GUIStyle restartStyle;
+	private bool displayRestart = false;
 	
 	void Awake(){
 		DontDestroyOnLoad (transform.gameObject);
@@ -17,11 +18,17 @@ public class script_persistent : MonoBehaviour {
 		if (level > furthest_level) {
 			furthest_level = level;
 		}
+		
+		if (level > 0) {
+			displayRestart = true;
+		} else {
+			displayRestart = false;
+		}
 	}
 	
 	void OnGUI() {
-		if (current_level > 0) {
-			if (GUI.Button(new Rect(Screen.width/2 - Screen.width/8 - Screen.width/15, Screen.height/2  - Screen.height/8 + Screen.width/15, Screen.width/15, Screen.width/15), "", restartStyle)) {
+		if (displayRestart) {
+			if (GUI.Button(new Rect(Screen.width - Screen.width/8.5f, Screen.height/10f, Screen.width/15, Screen.width/15), "", restartStyle)) {
 				Application.LoadLevel(current_level);
 			}
 		}
