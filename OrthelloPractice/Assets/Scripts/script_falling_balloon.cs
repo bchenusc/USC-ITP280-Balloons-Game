@@ -9,23 +9,16 @@ public class script_falling_balloon : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other){
-		//Handles falling balloon pop.
-		if (other.transform.CompareTag("spikes")&&player_script.has_balloon==-1){
-				player_script.changeHasBalloon(0);
-				player_script.destroyBalloon();
-		}
-		
-			
-		//Handles falling balloon stationary when hit ground.
+
 		if(other.transform.CompareTag ("tile") && player_script.has_balloon==-1){
 				player_script.changeRising(0);
 				player_script.hitTop(-1);
-		}	
+		}
 	}
 	
 	void OnTriggerExit(Collider other){
 		if (other.transform.CompareTag ("tile") && player_script.has_balloon==-1){
-			if (player_script.has_balloon==-1){
+			if (player_script.has_balloon==-1 && player_script.grounded==false){
 				player_script.hitTop(0);	
 			}	
 		}
