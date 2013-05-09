@@ -49,11 +49,18 @@ public class script_player_move : MonoBehaviour {
 	// Update is called once per frame
 	// Sprite horizontal default = facing right
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.R)) {
+		if (usingKeyboard && Input.GetKeyDown(KeyCode.R)) {
 		 	Application.LoadLevel(persistentScript.current_level);
 		}
 		
-		#region ORIENTATION
+		if (usingKeyboard && Input.GetKeyDown(KeyCode.N)) {
+			if (persistentScript.current_level < persistentScript.last_level) {
+				persistentScript.current_level++;
+				Application.LoadLevel(persistentScript.current_level);
+			}
+		}
+		
+		#region SCREEN_ORIENTATION
 		if (!usingKeyboard) {
 			if (Input.deviceOrientation == DeviceOrientation.LandscapeLeft) {
 				Screen.orientation = ScreenOrientation.LandscapeLeft;
