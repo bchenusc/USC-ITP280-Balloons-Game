@@ -309,6 +309,22 @@ public class OT : MonoBehaviour
 		}
 	}
 	
+    public static bool AnimationsReady()
+    {
+        if (!OT.isValid) return false;
+        for (int c = 0; c < animationCount; c++)
+        {
+            OTAnimation an = instance.animationList[c];
+            if (!an.isReady) 
+			{
+				if (an.enabled == false)
+					an.SendMessage("Update");
+				return false;
+			}					
+        }
+		return true;
+    }	
+	
     /// <summary>
     /// Check if all containers are ready.
     /// </summary>
@@ -319,7 +335,12 @@ public class OT : MonoBehaviour
         for (int c = 0; c < containerCount; c++)
         {
             OTContainer co = instance.containerList[c];
-            if (!co.isReady) return false;
+            if (!co.isReady) 
+			{
+				if (!co.enabled)
+					co.SendMessage("Update");
+				return false;
+			}
         }
 		return true;
     }
@@ -756,7 +777,7 @@ public class OT : MonoBehaviour
 		if (!isValid) return;
 		instance._Reset();
 	}
-
+		
 	/// <summary>
 	/// Find an animating sprite
 	/// </summary>
@@ -1038,7 +1059,18 @@ public class OT : MonoBehaviour
             instance._RegisterContainerLookup(container, oldName);
     }
 
-    /// <summary>
+	/// <summary>
+    /// Get a container using a texture lookup
+    /// </summary>
+    public static OTContainer ContainerByTexture(Texture texture)
+    {
+        if (isValid)
+            return instance._ContainerByTexture(texture);
+        else
+            return null;
+    }    
+		
+	/// <summary>
     /// Get a container using a name lookup
     /// </summary>
     /// <param name="name">Name of sprite container object to find</param>
@@ -1154,6 +1186,17 @@ public class OT : MonoBehaviour
     }
 
     /// <summary>
+    /// Creates a new gameobject cloned from an existing orthello object
+    /// </summary>
+    /// <param name="objectPrototype">Name of object prototype to create</param>
+    /// <returns>Created or pooled GameObject</returns>
+    public static GameObject CreateObject(OTObject o)
+    {
+        if (isValid)
+            return instance._CreateObject(o);
+        return null;
+    }		
+    /// <summary>
     /// Creates a new gameobject from a registered prototype
     /// </summary>
     /// <param name="objectPrototype">Name of object prototype to create</param>
@@ -1174,6 +1217,30 @@ public class OT : MonoBehaviour
     {
         if (isValid)
             return instance._CreateObject(objectPrototype).GetComponent<OTSprite>();
+        return null;
+    }	
+    /// <summary>
+    /// Creates a new OTSprite from a registered prototype at a specific position
+    /// </summary>
+    public static OTSprite CreateSpriteAt(string objectPrototype, Vector2 position)
+    {
+        if (isValid)
+		{
+			OTSprite sprite = instance._CreateObject(objectPrototype).GetComponent<OTSprite>();
+			sprite.position = position;
+            return sprite;
+		}
+        return null;
+    }	
+    /// <summary>
+    /// Creates a new OTSprite cloned from an existing orthello object
+    /// </summary>
+    /// <param name="objectPrototype">Name of object prototype to create</param>
+    /// <returns>Created or pooled OTSprite</returns>
+    public static OTSprite CreateSprite(OTObject o)
+    {
+        if (isValid)
+            return instance._CreateObject(o).GetComponent<OTSprite>();
         return null;
     }
 
@@ -1595,7 +1662,7 @@ public class OT : MonoBehaviour
 	
 	public void _Passify()
 	{
-		if (isValid && ContainersReady())
+		if (isValid && ContainersReady() && AnimationsReady())
 		{
 			for (int i=0; i<instance.objects.Count; i++)
 				instance.objects[i].passive = true;
@@ -1605,7 +1672,7 @@ public class OT : MonoBehaviour
 		else
 			Invoke("_Passify",0.1f);
 	}
-
+		
 	
     public OTObject[] _ObjectsUnderPoint(Vector2 screenPoint, OTObject[] checkObjects, OTObject[] ignoreObjects)
     {
@@ -1780,9 +1847,9 @@ public class OT : MonoBehaviour
             vp = OT.view.camera.ScreenToWorldPoint(pos) - OT.view.camera.ScreenToWorldPoint(o.position);
  
         if (OT.world == World.WorldTopDown2D)
-            o.dragObject.position += new Vector2(vp.x, vp.z);
+            o.dragObject.worldPosition += new Vector2(vp.x, vp.z);
         else
-            o.dragObject.position += (Vector2)vp;
+            o.dragObject.worldPosition += (Vector2)vp;
  
         o.position = pos;
         o.dragObject.HandleDrag("drag", null);
@@ -1999,7 +2066,7 @@ public class OT : MonoBehaviour
 			_reset = false;
 		}
 		
-		if (passifyAC && ContainersReady())
+		if (passifyAC && ContainersReady() && AnimationsReady())
 			Invoke("PassifyAC",0.1f);
 						
 #if UNITY_EDITOR	
@@ -2241,6 +2308,14 @@ public class OT : MonoBehaviour
         }
     }
 
+    OTContainer _ContainerByTexture(Texture texture)
+    {
+		for (int i=0; i<containerList.Count; i++)
+			if (containerList[i].texture == texture)
+				return containerList[i];
+		return null;
+    }
+		
     OTContainer _ContainerByName(string name)
     {
         if (containers.ContainsKey(name.ToLower()))
@@ -2430,28 +2505,44 @@ public class OT : MonoBehaviour
     {
         return _CreateObject(objectProtoType, Application.isPlaying);
     }
+	
+    GameObject _CreateObject(OTObject o)
+    {
+        return _CreateObject(o.name, Application.isPlaying);
+    }
 
     GameObject _CreateObject(string objectProtoType, bool fromPool)
     {
         string proto = objectProtoType.ToLower();
-        if (OTObjectType.lookup.ContainsKey(proto))
+		bool prototypeFound = OTObjectType.lookup.ContainsKey(proto);				
+		OTObject otObject = OT.ObjectByName(objectProtoType);
+        if (prototypeFound || otObject!=null)
         {
             if (!fromPool || !objectPooling)
             {
-                var g = Instantiate(OTObjectType.lookup[proto]) as GameObject;
+				GameObject g;
+				if (prototypeFound)
+				{
+                	g = Instantiate(OTObjectType.lookup[proto]) as GameObject;
+                	g.name = OTObjectType.lookup[proto].name;
+				}
+				else
+				{
+                	g = Instantiate(otObject.gameObject) as GameObject;
+                	g.name = otObject.name;
+				}
 												
 #if UNITY_3_0 || UNITY_3_1 || UNITY_3_2 || UNITY_3_3 || UNITY_3_4 || UNITY_3_5
 				g.SetActiveRecursively(true);
 #else
 				g.SetActive(true);
 #endif
-                g.name = OTObjectType.lookup[proto].name;
                 OTObject o = g.GetComponent<OTObject>();
                 if (o != null)
 				{					
 					if (onInstantiateObject!=null)
 						onInstantiateObject(o);
-										
+					o.enabled = true;
                     o.protoType = objectProtoType;
 					o.InitComponents();
 					if (createPassive)
@@ -2488,10 +2579,17 @@ public class OT : MonoBehaviour
                     GameObject g = gObjects[0];
                     gObjects.RemoveAt(0);
 
-                    OTObject o = g.GetComponent<OTObject>();
-					GameObject gproto = OTObjectType.lookup[proto];
-					if (gproto!=null)
+                    OTObject o = g.GetComponent<OTObject>();					
+					if (otObject!=null)
 					{
+						o.Assign(otObject);
+						if (createPassive)
+							o.passive = true;
+					}
+					else					
+					if (OTObjectType.lookup.ContainsKey(proto))
+					{
+						GameObject gproto = OTObjectType.lookup[proto];
                     	OTObject oproto = gproto.GetComponent<OTObject>();
 						if (o!=null && oproto!=null)
 						{

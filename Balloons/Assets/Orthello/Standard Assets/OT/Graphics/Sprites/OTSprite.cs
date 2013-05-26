@@ -173,8 +173,13 @@ public class OTSprite : OTObject
         }
         set
         {
-            _frameIndex = value;
-			Clean();
+			if (_frameIndex!=value)
+			{
+	            _frameIndex = value;
+				_frameName = "";
+				_frameName_ = "";
+				Clean();
+			}
         }
     }
 	
@@ -1044,7 +1049,7 @@ public class OTSprite : OTObject
 
     
     protected override void Awake()
-    {
+    {		
 		if (_frameIndex<0) 
 			_frameIndex = 0;
 		
