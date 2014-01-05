@@ -15,6 +15,8 @@ public class NextLevelTrigger : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.CompareTag("Player")){
+			other.GetComponent<PlayerMove>().enabled = false;
+			other.GetComponent<Rigidbody2D>().isKinematic = true;
 			GameState.Get.FadeOutToNextLevel();
 		}
 	}

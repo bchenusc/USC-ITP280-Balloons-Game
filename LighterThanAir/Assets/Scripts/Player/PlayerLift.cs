@@ -35,6 +35,11 @@ public class PlayerLift : MonoBehaviour {
 			PlayerStats.OnIsBallooned += GotBalloon;
 		#endregion
 	}
+	void OnDestroy(){
+		try{
+			PlayerStats.OnIsBallooned -= GotBalloon;
+		}catch{};
+	}
 
 	void Start(){
 		playerStats = transform.GetComponent<PlayerStats>();
