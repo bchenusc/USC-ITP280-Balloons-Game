@@ -5,7 +5,7 @@ public class script_player_move : MonoBehaviour {
 	public bool usingKeyboard = false;
 	
 	public int has_balloon; // 0 - no balls, 1 - up balls, 2- down balls
-	private bool grounded;
+	public bool grounded;
 	
 	private int hit_top;
 	public bool keep_rising;
@@ -500,8 +500,9 @@ public class script_player_move : MonoBehaviour {
 			balloon = other.transform;
 			other.transform.position = new Vector3(other.transform.position.x, transform.position.y + 20, other.transform.position.z);
 			changeGravity(false);
-			changeHasBalloon(1);
 			changeRising(1);
+			changeHasBalloon(1);
+			
 			sprite.frameIndex = 4;	
 		}else
 		if (other.transform.CompareTag("fallingballoon")&&has_balloon==0) {

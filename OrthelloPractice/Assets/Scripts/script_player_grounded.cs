@@ -11,10 +11,19 @@ public class script_player_grounded : MonoBehaviour {
 	
 	void OnTriggerStay(Collider other){
 		//Grounded
-		if (other.transform.CompareTag("tile")){
+		if (player_script.has_balloon==0&&other.transform.CompareTag("tile")){
 			player_script.changeGrounded(true);	
-		}		
+		}
+		
 	}
+	
+	void OnTriggerEnter(Collider other){
+		if (other.transform.CompareTag("spikes")&&player_script.has_balloon==-1){
+				player_script.changeHasBalloon(0);
+				player_script.destroyBalloon();
+		}
+	}
+	
 	void OnTriggerExit(Collider other){
 		if (other.transform.CompareTag ("tile")){
 			player_script.changeGrounded(false);
