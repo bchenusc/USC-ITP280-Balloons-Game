@@ -138,7 +138,7 @@ public class GameState : MonoBehaviour {
 	
 #region Singleton Instantiation
 	private static GameState _instance;
-	public int _AmSingleton = 0;
+	private int _AmSingleton = 0;
 	private static object _lock = new object();
 
 	private void InitSingleton(){
