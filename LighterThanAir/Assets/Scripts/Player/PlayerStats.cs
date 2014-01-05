@@ -22,6 +22,13 @@ using System.Collections;
 
 public class PlayerStats : MonoBehaviour {
 
+	//Movement condition
+	public enum SpeedCondition{
+		normal,
+
+	}
+	private SpeedCondition sc_speedCondition = SpeedCondition.normal;
+
 	//--- Ground Horizontal Movement ----
 	private bool b_facingRight = true;
 	private float f_GrMvForce = 400f;
@@ -37,15 +44,24 @@ public class PlayerStats : MonoBehaviour {
 	private float f_AirMaxSpeed = 1f; //<-- use this for horizontal
 
 	//--- Vertical Movement ---
-	public bool b_hasBalloon = false;
 	private float f_RisingForce = 100f;
 	private float f_RisingMaxSpeed = 3f; //<-- use this for rising speed
 
 	private float f_FallingForce = 100f; //Falling Balloon = FB
-	private float f_FallingMaxSpeed = 0.3f;
+	private float f_FallingMaxSpeed = 1f;
+
+
+
+	//--- Balloon types ----
+	public enum BalloonType{
+		none,
+		up,
+		down,
+	}
+	private BalloonType bt_hasBalloon;
 
 #region Delegate Events
-	public delegate void ChangeHasBalloon();
+	public delegate void ChangeHasBalloon(BalloonType bt);
 	public static event ChangeHasBalloon OnIsBallooned;
 
 	public delegate void ChangeIsGrounded();
@@ -58,7 +74,9 @@ public class PlayerStats : MonoBehaviour {
 	}
 
 #region Properties
+
 	//--- Ground Horizontal Movement ----
+	#region Groundmovement
 	public bool FacingRight{
 		get{return b_facingRight;}
 		set{b_facingRight = value;}
@@ -85,8 +103,11 @@ public class PlayerStats : MonoBehaviour {
 
 		}
 	}
+	#endregion
+
 
 	//--- Aerial Horizontal Movement ----
+	#region Aerial Horizontal Movement
 	public float A_HorizontalForce{
 		get{return f_AirMvForce;}
 	}
@@ -95,13 +116,13 @@ public class PlayerStats : MonoBehaviour {
 	}
 
 	//--- Vertical Movement ---
-	public bool HasBalloon{
-		get{return b_hasBalloon;}
+	public BalloonType HasBalloon{
+		get{return bt_hasBalloon;}
 		set
 		{
-			b_hasBalloon = value;
+			bt_hasBalloon = value;
 			if (OnIsBallooned != null){
-				OnIsBallooned();
+				OnIsBallooned(bt_hasBalloon);
 			}
 		}
 	}
@@ -117,6 +138,12 @@ public class PlayerStats : MonoBehaviour {
 	}
 	public float A_FallingMaxSpeed{
 		get{return f_FallingMaxSpeed;}
+	}
+	#endregion
+
+	public SpeedCondition MoveCondition{
+		get {return sc_speedCondition;}
+		set {sc_speedCondition = value;}
 	}
 
 #endregion

@@ -1,7 +1,7 @@
 Initialize engine version: 4.0.1f2
 GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 9.0c [nvumdshim.dll 9.18.13.1407]
+    Version:  Direct3D 9.0c [igdumd32.dll 9.17.10.2932]
     Renderer: Intel(R) HD Graphics 3000
     Vendor:   Intel
     VRAM:     880 MB (via DXGI)
@@ -13,7 +13,9 @@ Platform assembly: C:\Users\Brian\Documents\Unity_Projects\Balloons\Balloons\hel
 Loading C:\Users\Brian\Documents\Unity_Projects\Balloons\Balloons\hello_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\Brian\Documents\Unity_Projects\Balloons\Balloons\hello_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
 Loading C:\Users\Brian\Documents\Unity_Projects\Balloons\Balloons\hello_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
-- Completed reload, in  0.238 seconds
+- Completed reload, in  0.262 seconds
 desktop: 1366x768 40Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
+Platform assembly: C:\Users\Brian\Documents\Unity_Projects\Balloons\Balloons\hello_Data\Managed\System.Xml.dll (this message is harmless)
+Platform assembly: C:\Users\Brian\Documents\Unity_Projects\Balloons\Balloons\hello_Data\Managed\System.dll (this message is harmless)

@@ -32,7 +32,7 @@ public class PlayerMove : MonoBehaviour {
 	public float f_horiz = 0;
 	public float f_maxSpeed=0; //horizontal only
 	public float f_moveForce=0; //horizontal only
-	public bool b_hasBalloon = false;
+	public  PlayerStats.BalloonType bt_hasBalloon;
 	public bool b_isGrounded = false;
 	//------------------------------------
 
@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour {
 
 	void FixedUpdate () {
 		#region Computer Controls
-		if (b_isGrounded || b_hasBalloon){
+		if (b_isGrounded || bt_hasBalloon!= PlayerStats.BalloonType.none){
 			HandleInput();
 			Animate();
 		}
@@ -59,19 +59,16 @@ public class PlayerMove : MonoBehaviour {
 
 #region Other Script Function Calls
 
-	public void ChangeMove(){
+	public void GotBalloon(PlayerStats.BalloonType bt){
 		//Checks the player stats to see if player is ballooned or not.
-		if (!playerStats.HasBalloon){
-			f_maxSpeed = playerStats.G_HorizontalMaxSpeed;
-			f_moveForce = playerStats.G_HorizontalForce;
-			b_hasBalloon = playerStats.HasBalloon;
+		if (bt != PlayerStats.BalloonType.none){
+			f_maxSpeed = playerStats.A_HorizontalMaxSpeed;
+			bt_hasBalloon = playerStats.HasBalloon;
 		}
 		else
-		{
-			f_maxSpeed = playerStats.A_HorizontalMaxSpeed;
-			f_moveForce = playerStats.A_HorizontalForce;
-			b_hasBalloon = playerStats.HasBalloon;
-		}
+			f_maxSpeed = playerStats.G_HorizontalMaxSpeed;
+			bt_hasBalloon = playerStats.HasBalloon;
+			return;
 	}
 
 	public void IsGrounded(){
@@ -137,11 +134,11 @@ public class PlayerMove : MonoBehaviour {
 
 #region Delegate Calls
 	void Awake(){
-		PlayerStats.OnIsBallooned += ChangeMove;
+		PlayerStats.OnIsBallooned += GotBalloon;
 		PlayerStats.OnIsGrounded += IsGrounded;
 	}
 	void OnDisabled(){
-		PlayerStats.OnIsBallooned -= ChangeMove;
+		PlayerStats.OnIsBallooned -= GotBalloon;
 		PlayerStats.OnIsGrounded -= IsGrounded;
 	}
 #endregion
