@@ -41,6 +41,7 @@ public class GameState : MonoBehaviour {
 		t_transition = transform;
 		spriteRenderer = t_transition.GetComponent<SpriteRenderer>();
 		OnLevelWasLoaded(Application.loadedLevel);
+		inp_inputManager.Start();
 	}
 
 	void Update(){
@@ -49,6 +50,7 @@ public class GameState : MonoBehaviour {
 	}
 
 	void OnLevelWasLoaded(int i){
+		inp_inputManager.OnLevelLoaded(i);
 		if (Application.loadedLevelName.Equals(GetNextLevelString(i_CurrentLevel))){
 			t_timers.Add("delaylevel", FadeInNewLevel, 0.3f, false);
 		}
@@ -63,6 +65,18 @@ public class GameState : MonoBehaviour {
 	}
 	public void FadeOutToNextLevel(){
 		i_NextLevelQueue = GetNextLevelInt(i_CurrentLevel);
+		FadeOut();
+	}
+	public void FadeOutToLevel(string level){
+		i_NextLevelQueue = GetLevelInt(level);
+		FadeOut();
+	}
+	public void FadeOutToLevel(int i){
+		i_NextLevelQueue = i;
+		FadeOut();
+	}
+	public void FadeOutToRestartLevel(){
+		i_NextLevelQueue = i_CurrentLevel;
 		FadeOut();
 	}
 	public void FadeOutToMenu(){
@@ -98,6 +112,15 @@ public class GameState : MonoBehaviour {
 		}else{
 			return 0;
 		}
+	}
+	private int GetLevelInt(string s){
+		// O log(n)
+		for (int i=0; i< SCENES.Count; i++){
+			if (SCENES[i].Equals(s)){
+				return i;
+			}
+		}
+		return 0;
 	}
 	#endregion
 #endregion
@@ -213,6 +236,7 @@ public class GameState : MonoBehaviour {
 	/// So, this was made to be sure we're not creating that buggy ghost object.
 	/// </summary>
 	public void OnDestroy () {
+		inp_inputManager.OnDestroy();
 		applicationIsQuitting = true;
 	}
 	

@@ -68,6 +68,7 @@ public class PlayerCollision : MonoBehaviour {
 			else {
 				//TODO - KILL SELF HERE
 				Debug.Log("PlayerCollision: im dead");
+				Death();
 			}
 			#endregion
 		}
@@ -112,6 +113,14 @@ public class PlayerCollision : MonoBehaviour {
 		#endregion
 	}
 
+	private void Death(){
+		if (animator.GetBool("Dead") == false){
+			animator.SetBool("Dead", true);
+			GameState.Get.Timers.Add("death", DestroyPlayer, 1f, false);
+		}
+	}
+		                   
+
 	private void DestroyBalloon(){
 		try{
 			t_balloon.GetComponent<Animator>().SetBool("Pop", true);
@@ -133,9 +142,14 @@ public class PlayerCollision : MonoBehaviour {
 		animator.SetBool("HasUpBalloon", false);
 	}
 
+	#region callbacks
 	private void PopBalloon(){
 		Destroy(t_balloon.gameObject);
 	}
+	private void DestroyPlayer(){
+		GameState.Get.FadeOutToRestartLevel();
+	}
+	#endregion
 
 	//We do our script caching here.
 	void Start(){
