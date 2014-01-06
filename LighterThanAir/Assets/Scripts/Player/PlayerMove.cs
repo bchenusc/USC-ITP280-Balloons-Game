@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour {
 
 	void FixedUpdate () {
 		#region Computer Controls
-		if (b_isGrounded || bt_hasBalloon!= PlayerStats.BalloonType.none){
+		if (b_isGrounded || bt_hasBalloon != PlayerStats.BalloonType.none){
 			HandleInput();
 			Animate();
 		}

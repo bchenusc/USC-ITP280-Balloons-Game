@@ -35,7 +35,7 @@ public class PlayerStats : MonoBehaviour {
 	private float f_GrMaxSpeed = 3f; //<--- use this for horizontal ground speed.
 	
 	private bool b_Grounded = false;
-	private float f_GroundRadius = 0.1f; //unchangeable
+	private float f_GroundRadius = 0.19f; //unchangeable
 	public Transform t_GroundCheck; //set in editor
 	public LayerMask lm_WhatIsGround; //set in editor
 
@@ -95,6 +95,9 @@ public class PlayerStats : MonoBehaviour {
 			b_Grounded = value;
 			//Only set the delegate call if the state has changed.
 			if (b_Grounded != local_prevIsGrounded){
+				if (b_Grounded == false && bt_hasBalloon == BalloonType.none){
+					rigidbody2D.velocity = Vector2.zero;
+				}
 				if (OnIsGrounded != null){
 					OnIsGrounded();
 				}

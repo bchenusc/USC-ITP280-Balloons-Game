@@ -38,9 +38,9 @@ public class PlayerCollision : MonoBehaviour {
 	private Vector3 v3_DownBalloonOffset = new Vector3(0, 0.35f, 0);
 	
 	//Box collider info -- DO NOT TOUCH
-	private Vector2 v2_ResetBoxColSize = new Vector2(0.35f, 0.3f);
-	private Vector2 v2_ResetBoxColOffset = new Vector2 (0,0.02f);
-	private Vector2 v2_ResetCircleColOffset = new Vector2(0,-0.08f);
+	private Vector2 v2_ResetBoxColSize = new Vector2(0.35f, 0.45f);
+	private Vector2 v2_ResetBoxColOffset = new Vector2 (0,-0.045f);
+	private Vector2 v2_ResetCircleColOffset = new Vector2(0,0f);
 	private float f_ResetCircleColRadius = 0.19f;
 
 	//New collider size and offset for up balloon.
