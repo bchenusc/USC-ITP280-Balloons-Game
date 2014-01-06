@@ -177,7 +177,8 @@ public class EditModeGUI : MonoBehaviour {
 		if (
 			g.CompareTag("Block")||
 		    g.CompareTag("BlockCol")||
-		    g.CompareTag("Balloon")||
+		    g.CompareTag("BalloonUp")||
+		    g.CompareTag("BalloonDown")||
 		    g.CompareTag("Spike")||
 		    g.CompareTag("Door")||
 		    g.CompareTag("DoorTrigger")

@@ -31,8 +31,7 @@ public class PlayerStats : MonoBehaviour {
 
 	//--- Ground Horizontal Movement ----
 	private bool b_facingRight = true;
-	private float f_GrMvForce = 400f;
-	private float f_GrMaxSpeed = 3f; //<--- use this for horizontal ground speed.
+	private float f_GrMaxSpeed = 1f; //<--- use this for horizontal ground speed.
 	
 	private bool b_Grounded = false;
 	private float f_GroundRadius = 0.19f; //unchangeable
@@ -40,17 +39,12 @@ public class PlayerStats : MonoBehaviour {
 	public LayerMask lm_WhatIsGround; //set in editor
 
 	//--- Aerial Horizontal Movement ----
-	private float f_AirMvForce = 400f;
 	private float f_AirMaxSpeed = 1f; //<-- use this for horizontal
 
 	//--- Vertical Movement ---
-	private float f_RisingForce = 100f;
-	private float f_RisingMaxSpeed = 3f; //<-- use this for rising speed
+	private float f_RisingMaxSpeed = 2f; //<-- use this for rising speed
 
-	private float f_FallingForce = 100f; //Falling Balloon = FB
 	private float f_FallingMaxSpeed = 1f;
-
-
 
 	//--- Balloon types ----
 	public enum BalloonType{
@@ -81,9 +75,7 @@ public class PlayerStats : MonoBehaviour {
 		get{return b_facingRight;}
 		set{b_facingRight = value;}
 	}
-	public float G_HorizontalForce{
-		get{return f_GrMvForce;}
-	}
+
 	public float G_HorizontalMaxSpeed{
 		get{return f_GrMaxSpeed;}
 	}
@@ -111,9 +103,7 @@ public class PlayerStats : MonoBehaviour {
 
 	//--- Aerial Horizontal Movement ----
 	#region Aerial Horizontal Movement
-	public float A_HorizontalForce{
-		get{return f_AirMvForce;}
-	}
+
 	public float A_HorizontalMaxSpeed{
 		get{return f_AirMaxSpeed;}
 	}
@@ -129,16 +119,12 @@ public class PlayerStats : MonoBehaviour {
 			}
 		}
 	}
-	public float A_RisingForce{
-		get{return f_RisingForce;}
-	}
+
 	public float A_RisingMaxSpeed{
 		get{return f_RisingMaxSpeed;}
 	}
 	
-	public float A_FallingForce{
-		get{return f_FallingForce;}
-	}
+
 	public float A_FallingMaxSpeed{
 		get{return f_FallingMaxSpeed;}
 	}

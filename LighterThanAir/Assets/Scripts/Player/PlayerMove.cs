@@ -31,7 +31,6 @@ public class PlayerMove : MonoBehaviour {
 	//Temporary variables -- DO NOT TOUCH (variables are set from playerstats.
 	public float f_horiz = 0;
 	public float f_maxSpeed=0; //horizontal only
-	public float f_moveForce=0; //horizontal only
 	public  PlayerStats.BalloonType bt_hasBalloon;
 	public bool b_isGrounded = false;
 	//------------------------------------
@@ -44,7 +43,6 @@ public class PlayerMove : MonoBehaviour {
 		playerStats = transform.GetComponent<PlayerStats>();
 
 		f_maxSpeed = playerStats.G_HorizontalMaxSpeed;
-		f_moveForce = playerStats.G_HorizontalForce;
 	}
 	
 

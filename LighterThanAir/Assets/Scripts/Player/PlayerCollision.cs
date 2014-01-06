@@ -34,23 +34,23 @@ public class PlayerCollision : MonoBehaviour {
 	private Transform t_balloon = null;
 
 	//Balloon positioning
-	private Vector3 v3_UpBalloonOffset = new Vector3(0.07f, 0.5f, 0);
-	private Vector3 v3_DownBalloonOffset = new Vector3(0, 0.35f, 0);
+	private Vector3 v3_UpBalloonOffset = new Vector3(0.02f, 0.2f, 0);
+	private Vector3 v3_DownBalloonOffset = new Vector3(0, 0.145f, 0);
 	
 	//Box collider info -- DO NOT TOUCH
-	private Vector2 v2_ResetBoxColSize = new Vector2(0.35f, 0.45f);
-	private Vector2 v2_ResetBoxColOffset = new Vector2 (0,-0.045f);
-	private Vector2 v2_ResetCircleColOffset = new Vector2(0,0f);
-	private float f_ResetCircleColRadius = 0.19f;
+	private Vector2 v2_ResetBoxColSize = new Vector2(0.24f, 0.28f);
+	private Vector2 v2_ResetBoxColOffset = new Vector2 (0,-0.028f);
+	private Vector2 v2_ResetCircleColOffset = new Vector2(0,-0.01f);
+	private float f_ResetCircleColRadius = 0.12f;
 
 	//New collider size and offset for up balloon.
-	private Vector2 v2_UP_NewBoxColSize = new Vector2(.35f, 1.1f); //new size y
-	private Vector2 v2_UP_NewBoxColOffset= new Vector2(0, 0.45f); //new offset y
+	private Vector2 v2_UP_NewBoxColSize = new Vector2(0.24f, 0.77f); //new size y
+	private Vector2 v2_UP_NewBoxColOffset= new Vector2(0, 0.225f); //new offset y
 
 	//New collider size and offset for down balloon.
-	private Vector2 v2_DOWN_NewBoxColSize = new Vector2(0.9f, 0.2f); //new size y
-	private Vector2 v2_DOWN_NewBoxColOffset= new Vector2(0, -0.35f); //new offset y
-	private Vector2 v2_DOWN_NewCircleColOffset= Vector2.zero;
+	private Vector2 v2_DOWN_NewBoxColSize = new Vector2(0.55f, 0.12f); //new size y
+	private Vector2 v2_DOWN_NewBoxColOffset= new Vector2(0, -0.22f); //new offset y
+	private Vector2 v2_DOWN_NewCircleColOffset= new Vector2(0,-0.01f);
 
 
 	void OnCollisionEnter2D(Collision2D other){
@@ -58,7 +58,7 @@ public class PlayerCollision : MonoBehaviour {
 		if (other.gameObject.CompareTag("Spike")){
 
 			#region up balloon
-			if (PlayerStats.BalloonType.up == playerStats.HasBalloon && other.contacts[0].point.y > transform.position.y + 0.5f){
+			if (PlayerStats.BalloonType.up == playerStats.HasBalloon && other.contacts[0].point.y > transform.position.y){
 				DestroyBalloon();
 			}
 			else 
@@ -113,7 +113,11 @@ public class PlayerCollision : MonoBehaviour {
 	}
 
 	private void DestroyBalloon(){
-		Destroy(t_balloon.gameObject);
+		try{
+			t_balloon.GetComponent<Animator>().SetBool("Pop", true);
+			GameState.Get.Timers.Add("pop",PopBalloon, 0.25f, false);
+		}catch{Destroy(t_balloon.gameObject);}
+
 		#region box collider reset
 		myBoxCollider.size = v2_ResetBoxColSize;
 		myBoxCollider.center = v2_ResetBoxColOffset;
@@ -127,6 +131,10 @@ public class PlayerCollision : MonoBehaviour {
 
 		//Set all animator balloon variables to false.
 		animator.SetBool("HasUpBalloon", false);
+	}
+
+	private void PopBalloon(){
+		Destroy(t_balloon.gameObject);
 	}
 
 	//We do our script caching here.
