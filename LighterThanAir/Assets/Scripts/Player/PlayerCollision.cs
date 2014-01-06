@@ -77,7 +77,7 @@ public class PlayerCollision : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		//Collision with balloon
 		#region balloon up
-		if (other.gameObject.CompareTag("BalloonUp")){
+		if (other.gameObject.CompareTag("BalloonUp") && playerStats.HasBalloon == PlayerStats.BalloonType.none){
 			#region snap, parent, change collider, animate
 			t_balloon = other.transform;
 			t_balloon.parent = transform;
@@ -92,7 +92,7 @@ public class PlayerCollision : MonoBehaviour {
 		#endregion
 		else
 		#region balloon down
-		if (other.gameObject.CompareTag("BalloonDown")){
+		if (other.gameObject.CompareTag("BalloonDown") && playerStats.HasBalloon == PlayerStats.BalloonType.none){
 			#region snap, parent, change collider, animate
 			//Snap the player to the balloons position.
 			t_balloon = other.transform;
