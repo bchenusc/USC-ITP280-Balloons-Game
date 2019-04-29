@@ -1,4 +1,4 @@
-Balloons
+Balloons ![status](https://img.shields.io/badge/status-inactive-red.svg)
 ========
 
 Matthew Pohlmann, Brian Chen, David Zhang, Josh DiGiovanni, Jeffrey Chau
